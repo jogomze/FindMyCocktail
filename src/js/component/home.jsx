@@ -1,6 +1,20 @@
 import React, { useState, useEffect } from "react";
 import {db} from "../../firebase";
 import {collection, getDocs, addDoc, updateDoc, doc, deleteDoc} from "firebase/firestore";
+import Navbar from "./navbar.jsx";
+import Jumbotron from "./jumbotron.jsx";
+import Cards from "./cards.jsx";
+//import Footer from './footer.jsx';
+
+const links = [
+	{linkText: 'Home', url: '#'},
+	{linkText: 'About', url: '#'},
+	{linkText: 'Services', url: '#'},
+	{linkText: 'Contact', url: '#'},
+];
+
+
+
 
 const Home = () => {
 	const[ newFirstName, setNewFirstName ] = useState("");
@@ -34,45 +48,53 @@ const Home = () => {
 	}, []);
 
 	return (
-		<div>
-			<input 
-				placeholder="First Name"
-				onChange={event => {setNewFirstName(event.target.value);}}
-			/>
+	<>
+		<div className="mx-3">
+			<Navbar links={links}/>
+			<div>
+				<input 
+					placeholder="First Name"
+					onChange={event => {setNewFirstName(event.target.value);}}
+				/>
 
-			<input 
-				placeholder="Last Name"
-				onChange={event => {setNewLastName(event.target.value);}}
-			/>
+				<input 
+					placeholder="Last Name"
+					onChange={event => {setNewLastName(event.target.value);}}
+				/>
 
-            <input 
-				placeholder="Favorite Drinks"
-				onChange={event => {setNewDrink(event.target.value);}}
-			/>
+				<input 
+					placeholder="Favorite Drinks"
+					onChange={event => {setNewDrink(event.target.value);}}
+				/>
 
-			<input 
-				type= "number" 
-				placeholder="Age"
-				onChange={event => {setNewAge(event.target.value);}}
-			/>
-			<button onClick={createUser}> Create an User</button>
+				<input 
+					type= "number" 
+					placeholder="Age"
+					onChange={event => {setNewAge(event.target.value);}}
+				/>
+				<button onClick={createUser}> Create an User</button>
 
-			{   //GET user from data base
-				users.map(user => {
-					return(
-						<div key={user.id}>
-								<h1>Name: {user.first_name} {user.last_name}</h1>
-                                <h1>Favorite Drinks: {user.new_drink} </h1>
-								<h1>Age of the User: {user.age}</h1>
-								<button onClick={() => updateAge(user.id, user.age)}>Increase age</button>
-								<button onClick={() => deleteUser(user.id)}>Delete user</button>
-						</div>
+				{   //GET user from data base
+					users.map(user => {
+						return(
+							<div key={user.id}>
+									<h1>Name: {user.first_name} {user.last_name}</h1>
+									<h1>Favorite Drinks: {user.new_drink} </h1>
+									<h1>Age of the User: {user.age}</h1>
+									<button onClick={() => updateAge(user.id, user.age)}>Increase age</button>
+									<button onClick={() => deleteUser(user.id)}>Delete user</button>
+							</div>
+						)
+					}
 					)
-				}
-				)
-				//end GET
-			}  
+					//end GET
+				}  
+			</div>
+			<Jumbotron />
+					<Cards />
 		</div>
+	</>
+
 	)
 
 };
